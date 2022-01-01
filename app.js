@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 
-const uri = `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@cluster0.jrudo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DABASE_USER}:${process.env.DATABASE_PASSWORD}@cluster0.jrudo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 async function run() {
@@ -21,15 +21,7 @@ async function run() {
         //All Get Api
         
         app.get('/', async (req, res) => {
-            res.send("Well Come")
-            const users = {
-                name: "Ariful",
-                age: 16,
-            }
-        
-            await allProduct.insert(users);
-        
-        
+            res.send("Well Come") 
         });
         
         
@@ -41,11 +33,7 @@ async function run() {
 
            let products;
 
-           if(category !== true && productId !== true && productName !== true) {
-                products = await allProduct.find({}).toArray();
-                res.send(products);
-           }
-           else if(category) {
+            if(category) {
                 products = await allProduct.find({category: category}).toArray();
                 res.send(products);
            }
@@ -55,6 +43,10 @@ async function run() {
            }
            else if(productName) {
                products = await allproduct.find({productName: productName}).toArray();
+           }
+           else if(category !== true && productId !== true && productName !== true) {
+               products = await allProduct.find({}).toArray();
+               res.send(products);
            }
            
            
